@@ -1,0 +1,97 @@
+/* Accessibility Tool Specific Styles */
+
+.accessibility-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.palette-input-section {
+    background-color: var(--bg-card);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--spacing-lg);
+    border: 2px solid var(--border-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.palette-input-section h2 {
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-xl);
+}
+
+.palette-input {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+.palette-input input {
+    flex: 1;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-base);
+}
+
+.help-text {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.comparison-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.comparison-row {
+    background-color: var(--bg-card);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--border-secondary);
+    box-shadow: var(--shadow-sm);
+}
+
+.comparison-panel h3 {
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-lg);
+    color: var(--text-primary);
+}
+
+.color-palette-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    min-height: 100px;
+}
+
+.color-item-accessibility {
+    flex: 1;
+    min-width: 100px;
+    height: 120px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: var(--spacing-sm);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.color-hex-label {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.empty-palette {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: var(--spacing-xl);
+    font-style: italic;
+}
+

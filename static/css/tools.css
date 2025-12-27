@@ -1,0 +1,41 @@
+/* SVG Converter & Background Removal Tool Styles */
+
+.tool-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.upload-section {
+    background-color: var(--bg-card);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--spacing-md);
+    border: 2px solid var(--border-accent);
+    box-shadow: var(--shadow-sm);
+}
+
+.color-picker-group {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+}
+
+.color-picker-group input[type="color"] {
+    width: 60px;
+    height: 40px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+
+.color-picker-group input[type="text"] {
+    flex: 1;
+}
+
+#tolerance-value {
+    display: inline-block;
+    margin-left: var(--spacing-sm);
+    color: var(--color-primary);
+    font-weight: 600;
+}
+

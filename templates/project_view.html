@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}{{ project.title }} - HueVault{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/projects.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="project-view">
+    <div class="project-header">
+        <h1>{{ project.title }}</h1>
+        {% if project.description %}
+        <p class="project-description">{{ project.description }}</p>
+        {% endif %}
+    </div>
+
+    {% if project.palettes %}
+    <section class="project-section">
+        <h2>Color Palettes</h2>
+        {% for palette in project.palettes %}
+        <div class="palette-display">
+            {% for color in palette %}
+            <div class="color-swatch-large" style="background-color: {{ color }};">
+                <span class="color-hex">{{ color }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </section>
+    {% endif %}
+
+    {% if project.logos %}
+    <section class="project-section">
+        <h2>Logos</h2>
+        <div class="graphics-gallery">
+            {% for logo in project.logos %}
+            <div class="graphic-item">
+                <img src="{{ logo }}" alt="Logo">
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {% if project.favicons %}
+    <section class="project-section">
+        <h2>Favicons</h2>
+        <div class="graphics-gallery">
+            {% for favicon in project.favicons %}
+            <div class="graphic-item">
+                <img src="{{ favicon }}" alt="Favicon">
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {% if project.graphics %}
+    <section class="project-section">
+        <h2>Graphics</h2>
+        <div class="graphics-gallery">
+            {% for graphic in project.graphics %}
+            <div class="graphic-item">
+                <img src="{{ graphic }}" alt="Graphic">
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</div>
+{% endblock %}
+

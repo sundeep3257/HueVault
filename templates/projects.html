@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Projects - HueVault{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/projects.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Public Project Pages</h1>
+    <p>View and create portfolio pages showcasing your design work</p>
+    <a href="{{ url_for('projects.create_project') }}" class="btn btn-primary">Create New Project</a>
+</div>
+
+<div class="projects-grid">
+    {% if projects %}
+        {% for project in projects %}
+        <div class="project-card">
+            <h3><a href="{{ url_for('projects.view_project', project_id=project.id) }}">{{ project.title }}</a></h3>
+            <p>{{ project.description[:100] }}{% if project.description|length > 100 %}...{% endif %}</p>
+            {% if project.palettes %}
+            <div class="project-palette-preview">
+                {% for palette in project.palettes[:1] %}
+                    {% for color in palette[:5] %}
+                    <div class="color-swatch" style="background-color: {{ color }};"></div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            {% endif %}
+            <a href="{{ url_for('projects.view_project', project_id=project.id) }}" class="btn btn-secondary">View Project</a>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty-state">
+            <p>No projects yet. <a href="{{ url_for('projects.create_project') }}">Create your first project</a>!</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}User Archives - HueVault{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/projects.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>User Archives</h1>
+    <p>View and create public archives showcasing your design work</p>
+</div>
+
+{% if deleted %}
+<div class="result-section">
+    <p>Archive deleted successfully.</p>
+</div>
+{% endif %}
+
+<div class="archive-search">
+    <h2>Enter username to manage your archive</h2>
+    <form method="POST" action="{{ url_for('archives.go_to_archive') }}" class="archive-search-form">
+        <input type="text" name="username" placeholder="Enter archive username" required>
+        <button type="submit" class="btn btn-primary">Go to Archive</button>
+    </form>
+</div>
+
+<div class="projects-grid">
+    {% if archives %}
+        {% for archive in archives %}
+        <div class="project-card">
+            {% if archive.preview_image %}
+            <div class="archive-preview-image">
+                <img src="{{ url_for('archives.uploaded_file', filename=archive.preview_image) }}" alt="Preview">
+            </div>
+            {% endif %}
+            <h3><a href="{{ url_for('archives.view_archive', username=archive.username) }}">{{ archive.display_name }}</a></h3>
+            <p class="archive-username">@{{ archive.username }}</p>
+            <p class="archive-stats">{{ archive.project_count }} project{{ 's' if archive.project_count != 1 else '' }}</p>
+            <a href="{{ url_for('archives.view_archive', username=archive.username) }}" class="btn btn-secondary">View Archive</a>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty-state">
+            <p>No archives yet. <a href="{{ url_for('archives.go_to_archive') }}">Create your first archive</a>!</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+

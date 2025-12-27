@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% block title %}{{ archive.display_name }} - Edit Archive{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/projects.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="archive-view">
+    <div class="archive-header">
+        <h1 id="archive-display-name" contenteditable="false">{{ archive.display_name }}</h1>
+        <p class="archive-username">@{{ archive.username }}</p>
+        <div class="archive-header-actions">
+            <div>
+                <button id="edit-name-btn" class="btn btn-secondary">Edit Display Name</button>
+                <button id="save-name-btn" class="btn btn-primary" style="display: none;">Save</button>
+            </div>
+            <button id="delete-archive-btn" class="btn btn-danger">Delete Archive</button>
+        </div>
+    </div>
+
+    <div class="add-project-section">
+        <h2>Add New Project</h2>
+        <form id="add-project-form" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="project-title">Project Title *</label>
+                <input type="text" id="project-title" name="title" required>
+            </div>
+
+            <div class="form-group">
+                <label for="project-palette">Color Palette (comma/space/newline-separated hex codes)</label>
+                <textarea id="project-palette" name="palette" rows="2" placeholder="#FF0000, #00FF00, #0000FF"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="project-images">Images</label>
+                <input type="file" id="project-images" name="images" multiple accept="image/*">
+            </div>
+
+            <div class="layout-settings">
+                <h3>Image Layout Settings</h3>
+                <div class="layout-grid">
+                    <div class="form-group">
+                        <label for="img-width">Image Width (px)</label>
+                        <input type="number" id="img-width" name="img_width" value="260" min="100" max="800">
+                    </div>
+                    <div class="form-group">
+                        <label for="img-height">Image Height (px)</label>
+                        <input type="number" id="img-height" name="img_height" value="200" min="100" max="800">
+                    </div>
+                    <div class="form-group">
+                        <label for="img-fit">Image Fit</label>
+                        <select id="img-fit" name="img_fit">
+                            <option value="cover">Cover</option>
+                            <option value="contain">Contain</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="img-radius">Border Radius (px)</label>
+                        <input type="number" id="img-radius" name="img_radius" value="8" min="0" max="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="img-gap">Grid Gap (px)</label>
+                        <input type="number" id="img-gap" name="img_gap" value="16" min="0" max="50">
+                    </div>
+                </div>
+            </div>
+
+            <div class="preview-section">
+                <h3>Preview</h3>
+                <div id="project-preview" class="project-preview">
+                    <div class="preview-placeholder">Enter project details to see preview</div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Project</button>
+        </form>
+    </div>
+
+    <div class="projects-section">
+        <h2>Existing Projects</h2>
+        <div id="projects-container">
+            {% if projects %}
+                {% for project in projects %}
+                <div class="project-card-full" data-project-id="{{ project.id }}">
+                    <div class="project-header-actions">
+                        <h3>{{ project.title }}</h3>
+                        <div class="project-actions">
+                            <button class="btn btn-secondary btn-edit-project" data-project-id="{{ project.id }}">Edit</button>
+                            <button class="btn btn-danger btn-delete-project" data-project-id="{{ project.id }}">Delete</button>
+                        </div>
+                    </div>
+                    {% if project.palette %}
+                    <div class="palette-display-short">
+                        {% for color in project.palette %}
+                        <div class="color-swatch-short" style="background-color: {{ color }};" title="{{ color }}">
+                            <span class="color-hex-overlay">{{ color }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% if project.images %}
+                    <div class="graphics-gallery" style="
+                        grid-template-columns: repeat(auto-fill, minmax({{ project.img_width }}px, 1fr));
+                        gap: {{ project.img_gap }}px;
+                    ">
+                        {% for image in project.images %}
+                        <div class="graphic-item" style="
+                            width: {{ project.img_width }}px;
+                            height: {{ project.img_height }}px;
+                            border-radius: {{ project.img_radius }}px;
+                        ">
+                            <img src="{{ url_for('archives.uploaded_file', filename=image.filepath) }}" 
+                                 alt="{{ image.filename }}"
+                                 style="object-fit: {{ project.img_fit }}; width: 100%; height: 100%; border-radius: {{ project.img_radius }}px;">
+                            <button class="btn-delete-image" data-image-id="{{ image.id }}" title="Delete image">×</button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="empty-state">No projects yet. Add your first project above!</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Edit Project Modal -->
+<div id="edit-project-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h2>Edit Project</h2>
+        <form id="edit-project-form" enctype="multipart/form-data">
+            <input type="hidden" id="edit-project-id" name="project_id">
+            <div class="form-group">
+                <label for="edit-project-title">Project Title *</label>
+                <input type="text" id="edit-project-title" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="edit-project-palette">Color Palette</label>
+                <textarea id="edit-project-palette" name="palette" rows="2"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="edit-project-images">Add More Images</label>
+                <input type="file" id="edit-project-images" name="images" multiple accept="image/*">
+            </div>
+            <div class="layout-settings">
+                <h3>Image Layout Settings</h3>
+                <div class="layout-grid">
+                    <div class="form-group">
+                        <label for="edit-img-width">Image Width (px)</label>
+                        <input type="number" id="edit-img-width" name="img_width" min="100" max="800">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-img-height">Image Height (px)</label>
+                        <input type="number" id="edit-img-height" name="img_height" min="100" max="800">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-img-fit">Image Fit</label>
+                        <select id="edit-img-fit" name="img_fit">
+                            <option value="cover">Cover</option>
+                            <option value="contain">Contain</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-img-radius">Border Radius (px)</label>
+                        <input type="number" id="edit-img-radius" name="img_radius" min="0" max="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-img-gap">Grid Gap (px)</label>
+                        <input type="number" id="edit-img-gap" name="img_gap" min="0" max="50">
+                    </div>
+                </div>
+            </div>
+            <div class="preview-section">
+                <h3>Preview</h3>
+                <div id="edit-project-preview" class="project-preview"></div>
+            </div>
+            <div class="modal-actions">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="button" class="btn btn-secondary" id="cancel-edit">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const archiveUsername = '{{ archive.username }}';
+const updateUrl = '{{ url_for("archives.update_archive", username=archive.username) }}';
+const addProjectUrl = '{{ url_for("archives.add_project", username=archive.username) }}';
+</script>
+<script src="{{ url_for('static', filename='js/archive_edit.js') }}"></script>
+{% endblock %}
+

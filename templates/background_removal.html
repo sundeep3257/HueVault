@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Background Removal - HueVault{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tools.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Background Removal Tool</h1>
+    <p>Remove solid background colors from images while preserving transparency</p>
+</div>
+
+<div class="tool-container">
+    <div class="upload-section">
+        <form id="bg-remove-form" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="image-file">Select Image File</label>
+                <input type="file" id="image-file" name="file" accept=".png,.jpg,.jpeg,.tiff,.tif" required>
+            </div>
+
+            <div class="form-group">
+                <label for="bg-color">Background Color to Remove</label>
+                <div class="color-picker-group">
+                    <input type="color" id="bg-color-picker" value="#FFFFFF">
+                    <input type="text" id="bg-color" name="background_color" value="#FFFFFF" pattern="^#[0-9A-Fa-f]{6}$" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="tolerance">Color Tolerance (0-255)</label>
+                <input type="range" id="tolerance" name="tolerance" min="0" max="50" value="10">
+                <span id="tolerance-value">10</span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Remove Background</button>
+        </form>
+    </div>
+
+    <div id="result-section" class="result-section" style="display: none;">
+        <h3>Processing Complete</h3>
+        <p>Your image has been processed and will download automatically.</p>
+    </div>
+
+    <div id="error-section" class="error-section" style="display: none;">
+        <h3>Error</h3>
+        <p id="error-message"></p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/background_removal.js') }}"></script>
+{% endblock %}
+

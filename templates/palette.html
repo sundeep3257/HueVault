@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Color Palette Generator - HueVault{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/palette.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Color Palette Generator</h1>
+    <p>Create custom color palettes tailored to your design needs</p>
+</div>
+
+<div class="palette-container">
+    <div class="controls-panel">
+        <div class="control-group">
+            <label for="num-colors">Number of Colors</label>
+            <input type="number" id="num-colors" min="2" max="20" value="5">
+        </div>
+
+        <div class="control-group">
+            <label for="formal-playful">
+                Formal ↔ Playful
+                <span id="formal-playful-value">0.5</span>
+            </label>
+            <input type="range" id="formal-playful" min="0" max="1" step="0.01" value="0.5">
+        </div>
+
+        <div class="control-group">
+            <label for="modern-classic">
+                Modern ↔ Classic
+                <span id="modern-classic-value">0.5</span>
+            </label>
+            <input type="range" id="modern-classic" min="0" max="1" step="0.01" value="0.5">
+        </div>
+
+        <div class="control-group">
+            <label>Adjectives (multi-select)</label>
+            <div class="adjective-checkboxes">
+                <label><input type="checkbox" value="youthful"> Youthful</label>
+                <label><input type="checkbox" value="enterprise"> Enterprise</label>
+                <label><input type="checkbox" value="modern"> Modern</label>
+                <label><input type="checkbox" value="luxury"> Luxury</label>
+                <label><input type="checkbox" value="gaudy"> Gaudy</label>
+                <label><input type="checkbox" value="pastel"> Pastel</label>
+                <label><input type="checkbox" value="monotone"> Monotone</label>
+                <label><input type="checkbox" value="muted"> Muted</label>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label>Manual Color Input (Optional)</label>
+            <div id="manual-colors-input">
+                <input type="text" class="color-input" placeholder="#FFFFFF" pattern="^#[0-9A-Fa-f]{6}$">
+            </div>
+            <button type="button" class="btn btn-secondary" id="add-color-input">Add Color</button>
+        </div>
+
+        <div class="control-actions">
+            <button id="generate-btn" class="btn btn-primary">Generate Palette</button>
+            <button id="regenerate-btn" class="btn btn-secondary" disabled>Regenerate Unlocked</button>
+            <button id="expand-btn" class="btn btn-secondary" disabled>Expand Palette</button>
+        </div>
+    </div>
+
+    <div class="palette-display">
+        <div class="palette-header">
+            <h2>Generated Palette</h2>
+            <button id="copy-all-hex-btn" class="btn btn-secondary" disabled>Copy Hex Codes</button>
+        </div>
+        <div id="palette-colors" class="palette-colors">
+            <p class="placeholder-text">Click "Generate Palette" to create your color palette</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/palette.js') }}"></script>
+{% endblock %}
+

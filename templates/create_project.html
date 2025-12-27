@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Create Project - HueVault{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/projects.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Create New Project</h1>
+    <p>Build a public-facing portfolio page for your design work</p>
+</div>
+
+<div class="create-project-form">
+    <form id="project-form">
+        <div class="form-group">
+            <label for="project-title">Project Title *</label>
+            <input type="text" id="project-title" name="title" required>
+        </div>
+
+        <div class="form-group">
+            <label for="project-description">Description</label>
+            <textarea id="project-description" name="description" rows="4"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="project-palettes">Color Palettes (JSON array of hex arrays)</label>
+            <textarea id="project-palettes" name="palettes" rows="4" placeholder='[["#FF0000", "#00FF00", "#0000FF"]]'></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="project-logos">Logo URLs (one per line)</label>
+            <textarea id="project-logos" name="logos" rows="3" placeholder="https://example.com/logo.png"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="project-favicons">Favicon URLs (one per line)</label>
+            <textarea id="project-favicons" name="favicons" rows="3" placeholder="https://example.com/favicon.png"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="project-graphics">Graphics URLs (one per line)</label>
+            <textarea id="project-graphics" name="graphics" rows="5" placeholder="https://example.com/graphic1.png"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Project</button>
+    </form>
+
+    <div id="result-section" class="result-section" style="display: none;">
+        <h3>Project Created Successfully!</h3>
+        <p>Your project has been created. <a id="project-link" href="#">View it here</a>.</p>
+    </div>
+
+    <div id="error-section" class="error-section" style="display: none;">
+        <h3>Error</h3>
+        <p id="error-message"></p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/create_project.js') }}"></script>
+{% endblock %}
+

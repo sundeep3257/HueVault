@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}SVG Converter - HueVault{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tools.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>SVG Converter</h1>
+    <p>Convert SVG files to high-resolution raster formats at 1200 DPI</p>
+</div>
+
+<div class="tool-container">
+    <div class="upload-section">
+        <form id="svg-convert-form" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="svg-file">Select SVG File</label>
+                <input type="file" id="svg-file" name="file" accept=".svg" required>
+            </div>
+
+            <div class="form-group">
+                <label for="output-format">Output Format</label>
+                <select id="output-format" name="format">
+                    <option value="png">PNG</option>
+                    <option value="jpeg">JPEG</option>
+                    <option value="tiff">TIFF</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Convert</button>
+        </form>
+    </div>
+
+    <div id="result-section" class="result-section" style="display: none;">
+        <h3>Conversion Complete</h3>
+        <p>Your file has been converted and will download automatically.</p>
+    </div>
+
+    <div id="error-section" class="error-section" style="display: none;">
+        <h3>Error</h3>
+        <p id="error-message"></p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/svg_converter.js') }}"></script>
+{% endblock %}
+

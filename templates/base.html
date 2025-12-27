@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}HueVault{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="{{ url_for('main.index') }}" class="logo-link">
+                    <img src="{{ url_for('static', filename='logo.png') }}" alt="HueVault" class="logo">
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                    <li><a href="{{ url_for('palette.palette_generator') }}">Palette Generator</a></li>
+                    <li><a href="{{ url_for('accessibility.accessibility_tool') }}">Accessibility</a></li>
+                    <li><a href="{{ url_for('svg_converter.svg_converter') }}">SVG Converter</a></li>
+                    <li><a href="{{ url_for('background_removal.background_removal') }}">Background Removal</a></li>
+                    <li><a href="{{ url_for('archives.archives_list') }}">User Archives</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 HueVault. Built for designers.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
+

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Color Accessibility - HueVault{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/accessibility.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Color Accessibility & Color-Blindness Simulator</h1>
+    <p>Visualize how your color palettes appear to users with color vision deficiencies</p>
+</div>
+
+<div class="accessibility-container">
+    <div class="palette-input-section">
+        <h2>Enter Your Palette</h2>
+        <div class="palette-input">
+            <input type="text" id="palette-input" placeholder="Enter hex colors separated by commas (e.g., #FF0000, #00FF00, #0000FF)">
+            <button id="load-palette-btn" class="btn btn-primary">Load Palette</button>
+        </div>
+        <p class="help-text">Or paste colors from the Palette Generator</p>
+    </div>
+
+    <div class="comparison-section">
+        <div class="comparison-row">
+            <div class="comparison-panel">
+                <h3>Original Palette</h3>
+                <div id="original-palette" class="color-palette-display"></div>
+            </div>
+        </div>
+
+        <div class="comparison-row">
+            <div class="comparison-panel">
+                <h3>Protanopia (Red-Blind)</h3>
+                <div id="protanopia-palette" class="color-palette-display"></div>
+            </div>
+        </div>
+
+        <div class="comparison-row">
+            <div class="comparison-panel">
+                <h3>Deuteranopia (Green-Blind)</h3>
+                <div id="deuteranopia-palette" class="color-palette-display"></div>
+            </div>
+        </div>
+
+        <div class="comparison-row">
+            <div class="comparison-panel">
+                <h3>Tritanopia (Blue-Blind)</h3>
+                <div id="tritanopia-palette" class="color-palette-display"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/accessibility.js') }}"></script>
+{% endblock %}
+
