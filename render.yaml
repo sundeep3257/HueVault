@@ -1,8 +1,13 @@
 services:
   - type: web
-    name: your-flask-app
+    name: huevault
     env: python
     pythonVersion: 3.12.8
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn wsgi:app
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 2 --timeout 120 wsgi:app
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: FLASK_ENV
+        value: production
 
